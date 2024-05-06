@@ -1,16 +1,23 @@
 name: 'Install dependencies'
-description: 'Install Python library dependencies using Poetry'
+description: 'Set up Python and install Poetry'
 
 runs:
   using: composite
   steps:
-    - name: Set up python
-      id: setup-python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
+        
+    - name: Load cached Poetry installation
+      id: cached-poetry
+      uses: actions/cache@v3
+      with:
+        path: ~/.local
+        key: poetry-0
 
     - name: Install Poetry
+      if: steps.cached-poetry.outputs.cache-hit != 'true'
       uses: snok/install-poetry@v1
       with:
         virtualenvs-create: true
