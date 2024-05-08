@@ -131,7 +131,7 @@ jobs:
         if: ${{ inputs.test-database }}
         with:
           name: code-coverage-postgres-report
-          path: coverage-postgres.xml
+          path: postgres-coverage.xml
 
   SonarCloud:
     runs-on: ubuntu-latest
