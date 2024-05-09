@@ -134,6 +134,10 @@ jobs:
           path: postgres-coverage.xml
 
   SonarCloud:
+    # SonarCloud requires the SONAR_TOKEN to be visible. For PRs
+    # coming from a forked repo this is not possible. Until we 
+    # have a workaround for this, we will skip this part.
+    if: github.event.pull_request.head.repo.name == github.repository
     runs-on: ubuntu-latest
     needs: [StaticCodeAnalysis, Format, Lint, Sort, Bandit, UnitTest]
     steps:
