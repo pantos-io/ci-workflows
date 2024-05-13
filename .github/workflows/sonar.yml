@@ -1,0 +1,65 @@
+name: Sonar
+on:
+  workflow_call:
+    inputs:
+      test-database:
+        required: false
+        type: boolean
+        default: false
+  workflow_run:
+    workflows: [CI shared workflow]
+    types: [completed]
+permissions:
+  actions: read
+  checks: read
+  id-token: read
+  pull-requests: read
+  repository-projects: read
+  statuses: read
+jobs:
+  sonar:
+    name: Sonar
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name }}
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+      - name: Get run ID of parent CI workflow
+        id: get-run-id
+        run: |
+          OTHER_REPO="${{ github.repository }}"
+          WF_NAME="CI"
+          RUN_ID=`gh run --repo ${OTHER_REPO} list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
+          echo "Detected latest run id of ${RUN_ID} for workflow ${WF_NAME}"
+          echo "run-id=${RUN_ID}" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Download artifact from CI workflow
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage-report
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.get-run-id.outputs.run-id }}
+      - uses: actions/download-artifact@v4
+        if: ${{ inputs.test-database }}
+        with:
+          name: code-coverage-postgres-report
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.get-run-id.outputs.run-id }}
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.scm.revision=${{ github.event.workflow_run.head_sha }}
+            -Dsonar.pullrequest.key=${{ github.event.workflow_run.pull_requests[0].number }}
+            -Dsonar.pullrequest.branch=${{ github.event.workflow_run.pull_requests[0].head.ref }}
+            -Dsonar.pullrequest.base=${{ github.event.workflow_run.pull_requests[0].base.ref }}
