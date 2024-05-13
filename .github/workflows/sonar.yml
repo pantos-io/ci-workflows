@@ -6,21 +6,16 @@ on:
         required: false
         type: boolean
         default: false
-      database-name:
-        required: false
-        type: string
-        default: ""
-      database-user:
-        required: false
-        type: string
-        default: ""
-      database-password:
-        required: false
-        type: string
-        default: ""
   workflow_run:
     workflows: [CI shared workflow]
     types: [completed]
+permissions:
+  actions: read
+  checks: read
+  id-token: read
+  pull-requests: read
+  repository-projects: read
+  statuses: read
 jobs:
   sonar:
     name: Sonar
@@ -33,7 +28,7 @@ jobs:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
-      - name: Get run ID of parent workflow
+      - name: Get run ID of parent CI workflow
         id: get-run-id
         run: |
           OTHER_REPO="${{ github.repository }}"
@@ -43,7 +38,7 @@ jobs:
           echo "run-id=${RUN_ID}" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: Download artifact from "Test" workflow
+      - name: Download artifact from CI workflow
         uses: actions/download-artifact@v4
         with:
           name: code-coverage-report
