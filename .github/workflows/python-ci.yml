@@ -25,6 +25,10 @@ jobs:
     name: Static Code Analysis
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -39,6 +43,10 @@ jobs:
   Format:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -53,6 +61,10 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -66,6 +78,10 @@ jobs:
   Sort:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -80,6 +96,10 @@ jobs:
     name: Bandit
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -104,6 +124,10 @@ jobs:
           - 5432:5432
 
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit  
+   
       - uses: actions/checkout@v4
         with:
             submodules: recursive

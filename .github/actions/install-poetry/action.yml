@@ -4,6 +4,10 @@ description: 'Set up Python and install Poetry'
 runs:
   using: composite
   steps:
+    - uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:

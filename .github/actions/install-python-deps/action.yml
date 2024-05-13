@@ -4,6 +4,10 @@ description: 'Install Python library dependencies using Poetry'
 runs:
   using: composite
   steps:
+    - uses: step-security/harden-runner@v2
+      with:
+        egress-policy: audit
+
     - uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
     
     - name: Load cached venv
