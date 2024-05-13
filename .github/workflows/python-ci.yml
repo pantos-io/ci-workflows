@@ -27,7 +27,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
       
       - uses: actions/checkout@v4
         with:
@@ -45,7 +51,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443    
       
       - uses: actions/checkout@v4
         with:
@@ -63,7 +75,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443    
       
       - uses: actions/checkout@v4
         with:
@@ -80,7 +98,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
       
       - uses: actions/checkout@v4
         with:
@@ -98,7 +122,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
       
       - uses: actions/checkout@v4
         with:
@@ -126,7 +156,13 @@ jobs:
     steps:
       - uses: step-security/harden-runner@v2
         with:
-          egress-policy: audit  
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
    
       - uses: actions/checkout@v4
         with:
