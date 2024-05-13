@@ -33,7 +33,7 @@ jobs:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
           ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
-      - name: Get run ID of "Test" workflow
+      - name: Get run ID of parent workflow
         id: get-run-id
         run: |
           OTHER_REPO="${{ github.repository }}"
