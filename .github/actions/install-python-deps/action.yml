@@ -4,7 +4,7 @@ description: 'Install Python library dependencies using Poetry'
 runs:
   using: composite
   steps:
-    - uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
+    - uses: pantos-io/ci-workflows/.github/actions/install-poetry@7b6f7155fd88f3f90662e54fb098d5d78ec43982
     
     - name: Load cached venv
       id: cached-poetry-dependencies
