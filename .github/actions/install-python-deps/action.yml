@@ -4,18 +4,8 @@ description: 'Install Python library dependencies using Poetry'
 runs:
   using: composite
   steps:
-    - uses: step-security/harden-runner@v2
-      with:
-        disable-sudo: true
-        egress-policy: block
-        allowed-endpoints: >
-          files.pythonhosted.org:443
-          github.com:443
-          install.python-poetry.org:443
-          pypi.org:443  
-
-    - uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
-    
+    #- uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
+    - uses: juanmanuel-tirado/ci-workflows/.github/actions/install-poetry@PAN-1889-python-version-matrix
     - name: Load cached venv
       id: cached-poetry-dependencies
       uses: actions/cache@v4
