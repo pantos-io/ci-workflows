@@ -14,9 +14,9 @@ runs:
       uses: actions/cache@v4
       with:
         path: |
-          ~/.local
-          ~/.config
-        key: poetry-0
+          ~/.local-${{ matrix.python-version }}
+          ~/.config-${{ matrix.python-version }}
+        key: poetry-${{ matrix.python-version }}
 
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'
