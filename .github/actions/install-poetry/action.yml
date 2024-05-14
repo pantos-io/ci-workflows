@@ -26,7 +26,7 @@ runs:
         path: |
           ~/.local-${{ matrix.python-version }}
           ~/.config-${{ matrix.python-version }}
-        key: poetry-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.python-version }}
+        key: poetry-${{ runner.os }}-${{ matrix.python-version }}
 
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'
