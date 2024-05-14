@@ -115,7 +115,7 @@ jobs:
             submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
 
-      - uses: juanmanuel-tirado/ci-workflows/.github/actions/install-python-deps@PAN-1889-python-version-matrix
+      - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
       
       - name: UnitTest
         env:
