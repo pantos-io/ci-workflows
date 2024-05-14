@@ -109,6 +109,7 @@ jobs:
           - 5432:5432
 
     steps:
+  
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -117,23 +118,25 @@ jobs:
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
       
       - name: UnitTest
+        env:
+          PYTHON_VERSION: '${{ matrix.python-version }}'
         run: |
             make coverage
-            poetry run coverage xml
+            poetry run coverage xml -o coverage-${{ matrix.python-version }}.xml
   
       - uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-report
-          path: coverage.xml
+          name: code-coverage-report-${{ matrix.python-version }}
+          path: coverage-${{ matrix.python-version }}.xml
 
       - name: PostgresUnitTest
         if: ${{ inputs.test-database }}
         run: |
             make coverage-postgres
-            poetry run coverage xml -o postgres-coverage.xml
+            poetry run coverage xml -o postgres-${{ matrix.python-version }}.xml
 
       - uses: actions/upload-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          name: code-coverage-postgres-report
-          path: postgres-coverage.xml
+          name: code-coverage-postgres-report-${{ matrix.python-version }}
+          path: postgres-coverage-${{ matrix.python-version }}.xml

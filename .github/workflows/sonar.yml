@@ -41,14 +41,14 @@ jobs:
       - name: Download artifact from CI workflow
         uses: actions/download-artifact@v4
         with:
-          name: code-coverage-report
+          name: code-coverage-report-${{ matrix.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
       - uses: actions/download-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          name: code-coverage-postgres-report
+          name: code-coverage-postgres-report-${{ matrix.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
