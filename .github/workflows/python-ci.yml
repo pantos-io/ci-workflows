@@ -20,11 +20,24 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: read
+
 jobs:
   StaticCodeAnalysis:
     name: Static Code Analysis
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -39,6 +52,16 @@ jobs:
   Format:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443    
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -53,6 +76,16 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443    
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -66,6 +99,16 @@ jobs:
   Sort:
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -80,6 +123,16 @@ jobs:
     name: Bandit
     runs-on: ubuntu-latest
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
+      
       - uses: actions/checkout@v4
         with:
             submodules: recursive
@@ -104,6 +157,16 @@ jobs:
           - 5432:5432
 
     steps:
+      - uses: step-security/harden-runner@v2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            files.pythonhosted.org:443
+            github.com:443
+            install.python-poetry.org:443
+            pypi.org:443  
+   
       - uses: actions/checkout@v4
         with:
             submodules: recursive
