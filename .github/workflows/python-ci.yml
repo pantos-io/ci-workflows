@@ -177,7 +177,7 @@ jobs:
         with:
             submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
-      - uses: juanmanuel-tirado/ci-workflows/.github/actions/install-python-deps@@PAN-1889-python-version-matrix
+      - uses: juanmanuel-tirado/ci-workflows/.github/actions/install-python-deps@PAN-1889-python-version-matrix
         with:
           python-version: ${{ matrix.python-version }}
           runner-os: ${{ matrix.os }}
