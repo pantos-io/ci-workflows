@@ -24,9 +24,14 @@ permissions:
   contents: read
 
 jobs:
+  strategy:
+    fail-fast: false
+    matrix:
+      python-version: ["3.10", "3.11", "3.12"]
+      os: [ubuntu-22.04]
   StaticCodeAnalysis:
     name: Static Code Analysis
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: step-security/harden-runner@v2
         with:
@@ -50,7 +55,7 @@ jobs:
           make check
 
   Format:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: step-security/harden-runner@v2
         with:
@@ -74,7 +79,7 @@ jobs:
         run: make format-check
 
   Lint:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: step-security/harden-runner@v2
         with:
@@ -97,7 +102,7 @@ jobs:
         run: make lint
 
   Sort:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: step-security/harden-runner@v2
         with:
@@ -121,7 +126,7 @@ jobs:
 
   Bandit:
     name: Bandit
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: step-security/harden-runner@v2
         with:
@@ -144,11 +149,6 @@ jobs:
         run: make bandit
 
   UnitTest:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     name: Unit test for Python ${{ matrix.python-version }} on ${{ matrix.os }}
     services:
