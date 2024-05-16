@@ -15,16 +15,18 @@ permissions:
   pull-requests: read
   repository-projects: read
   statuses: read
+
 jobs:
-  sonar:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-        os: [ubuntu-22.04]
-    name: Sonar
-    runs-on: ${{ matrix.os }}
+  Sonar:
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     python-version: ["3.10", "3.11", "3.12"]
+    #     os: [ubuntu-22.04]
+    # name: Sonar ${{ matrix.python-version}}
     timeout-minutes: 30
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: step-security/harden-runner@v2
@@ -48,14 +50,16 @@ jobs:
       - name: Download artifact from CI workflow
         uses: actions/download-artifact@v4
         with:
-          name: code-coverage-report-${{ matrix.python-version }}
+          # name: code-coverage-report-${{ matrix.python-version }}
+          name: code-coverage-report-3.12
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
       - uses: actions/download-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          name: code-coverage-postgres-report-${{ matrix.python-version }}
+          #name: code-coverage-postgres-report-${{ matrix.python-version }}
+          name: code-coverage-postgres-report-3.12
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
