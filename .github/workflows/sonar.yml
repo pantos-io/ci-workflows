@@ -12,7 +12,6 @@ on:
 permissions:
   actions: read
   checks: read
-  id-token: read
   pull-requests: read
   repository-projects: read
   statuses: read
@@ -23,8 +22,13 @@ jobs:
       python-version: ["3.10", "3.11", "3.12"]
       os: [ubuntu-22.04]
   sonar:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        os: [ubuntu-22.04]
     name: Sonar
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     if: github.event.workflow_run.conclusion == 'success'
     steps:
