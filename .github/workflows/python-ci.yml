@@ -150,6 +150,7 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
+    name: Unit test for Python ${{ matrix.python-version }} on ${{ matrix.os }}
     services:
       postgres:
         image: ${{ (inputs.test-database) && 'postgres:latest' || '' }}
