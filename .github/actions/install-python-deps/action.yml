@@ -1,6 +1,14 @@
 name: 'Install dependencies'
 description: 'Install Python library dependencies using Poetry'
 
+inputs:
+  python-version: 
+    required: true
+    description: "Python version to use"
+  runner-os:
+    required: true
+    description: "OS used by the runner"
+
 runs:
   using: composite
   steps:
@@ -11,7 +19,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.venv
-        key: venv-${{ steps.globals.outputs.RUNNER_OS }}-${{ steps.globals.outputs.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+        key: venv-${{ inputs.runner-os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       shell: bash

@@ -1,13 +1,22 @@
 name: 'Install dependencies'
 description: 'Set up Python and install Poetry'
 
+inputs:
+  python-version: 
+    required: true
+    description: "Python version to use"
+  runner-os:
+    required: true
+    description: "OS used by the runner"
+
+
 runs:
   using: composite
   steps:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ steps.globals.outputs.PYTHON_VERSION }}
+        python-version: ${{ inputs.python-version }}
 
     - name: Load cached Poetry installation
       id: cached-poetry
@@ -16,7 +25,7 @@ runs:
         path: |
           ~/.local
           ~/.config
-        key: poetry-${{ steps.globals.outputs.RUNNER_OS }}-${{ steps.globals.outputs.PYTHON_VERSION }}
+        key: poetry-${{ inputs.runner-os }}-${{ inputs.python-version }}
 
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'
