@@ -1,27 +1,28 @@
 name: 'Install dependencies'
 description: 'Install Python library dependencies using Poetry'
 
+inputs:
+  python-version: 
+    required: true
+    description: "Python version to use"
+  runner-os:
+    required: true
+    description: "OS used by the runner"
+
 runs:
   using: composite
   steps:
-    - uses: step-security/harden-runner@v2
-      with:
-        disable-sudo: true
-        egress-policy: block
-        allowed-endpoints: >
-          files.pythonhosted.org:443
-          github.com:443
-          install.python-poetry.org:443
-          pypi.org:443  
-
     - uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
-    
+      with:
+        python-version: ${{ inputs.python-version }}
+        runner-os: ${{ inputs.runner-os }}
+
     - name: Load cached venv
       id: cached-poetry-dependencies
       uses: actions/cache@v4
       with:
-        path: .venv
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+        path: ~/.venv
+        key: venv-${{ inputs.runner-os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       shell: bash

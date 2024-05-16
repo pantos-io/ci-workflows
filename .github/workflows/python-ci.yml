@@ -144,7 +144,13 @@ jobs:
         run: make bandit
 
   UnitTest:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    name: Unit test for Python ${{ matrix.python-version }} on ${{ matrix.os }}
     services:
       postgres:
         image: ${{ (inputs.test-database) && 'postgres:latest' || '' }}
@@ -171,27 +177,32 @@ jobs:
         with:
             submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
-
+      
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          runner-os: ${{ matrix.os }}
       
       - name: UnitTest
+        env:
+          PYTHON_VERSION: '${{ matrix.python-version }}'
         run: |
             make coverage
-            poetry run coverage xml
+            poetry run coverage xml -o coverage-${{ matrix.python-version }}.xml
   
       - uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-report
-          path: coverage.xml
+          name: code-coverage-report-${{ matrix.python-version }}
+          path: coverage-${{ matrix.python-version }}.xml
 
       - name: PostgresUnitTest
         if: ${{ inputs.test-database }}
         run: |
             make coverage-postgres
-            poetry run coverage xml -o postgres-coverage.xml
+            poetry run coverage xml -o postgres-${{ matrix.python-version }}.xml
 
       - uses: actions/upload-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          name: code-coverage-postgres-report
-          path: postgres-coverage.xml
+          name: code-coverage-postgres-report-${{ matrix.python-version }}
+          path: postgres-coverage-${{ matrix.python-version }}.xml

@@ -1,23 +1,22 @@
 name: 'Install dependencies'
 description: 'Set up Python and install Poetry'
 
+inputs:
+  python-version: 
+    required: true
+    description: "Python version to use"
+  runner-os:
+    required: true
+    description: "OS used by the runner"
+
+
 runs:
   using: composite
   steps:
-    - uses: step-security/harden-runner@v2
-      with:
-        disable-sudo: true
-        egress-policy: block
-        allowed-endpoints: >
-          files.pythonhosted.org:443
-          github.com:443
-          install.python-poetry.org:443
-          pypi.org:443  
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: ${{ inputs.python-version }}
 
     - name: Load cached Poetry installation
       id: cached-poetry
@@ -26,7 +25,7 @@ runs:
         path: |
           ~/.local
           ~/.config
-        key: poetry-0
+        key: poetry-${{ inputs.runner-os }}-${{ inputs.python-version }}
 
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'
@@ -35,3 +34,4 @@ runs:
         virtualenvs-create: true
         virtualenvs-in-project: true
         installer-parallel: true
+

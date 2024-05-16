@@ -17,6 +17,11 @@ permissions:
   repository-projects: read
   statuses: read
 jobs:
+  strategy:
+    fail-fast: false
+    matrix:
+      python-version: ["3.10", "3.11", "3.12"]
+      os: [ubuntu-22.04]
   sonar:
     name: Sonar
     runs-on: ubuntu-latest
@@ -44,14 +49,14 @@ jobs:
       - name: Download artifact from CI workflow
         uses: actions/download-artifact@v4
         with:
-          name: code-coverage-report
+          name: code-coverage-report-${{ matrix.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
       - uses: actions/download-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          name: code-coverage-postgres-report
+          name: code-coverage-postgres-report-${{ matrix.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
