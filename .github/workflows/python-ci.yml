@@ -179,6 +179,9 @@ jobs:
             token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
+        env:
+          PYTHON_VERSION: '${{ matrix.python-version }}'
+          RUNNER_OS: '${{ matrix.os }}'
       
       - name: UnitTest
         env:

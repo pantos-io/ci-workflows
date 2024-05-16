@@ -9,8 +9,8 @@ runs:
       id: cached-poetry-dependencies
       uses: actions/cache@v4
       with:
-        path: ~/.venv-${{ runner.os }}-${{ matrix.python-version }}
-        key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+        path: ~/.venv-${{ RUNNER_OS }}-${{ PYTHON_VERSION }}
+        key: venv-${{ RUNNER_OS }}-${{ PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       shell: bash
