@@ -7,7 +7,7 @@ runs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: ${{ PYTHON_VERSION }}
+        python-version: ${{ steps.globals.outputs.PYTHON_VERSION }}
 
     - name: Load cached Poetry installation
       id: cached-poetry
@@ -16,7 +16,7 @@ runs:
         path: |
           ~/.local
           ~/.config
-        key: poetry-${{ runner.os }}-${{ matrix.python-version }}
+        key: poetry-${{ steps.globals.outputs.RUNNER_OS }}-${{ steps.globals.outputs.PYTHON_VERSION }}
 
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'

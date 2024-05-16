@@ -5,16 +5,13 @@ runs:
   using: composite
   steps:
     - uses: pantos-io/ci-workflows/.github/actions/install-poetry@v1
-      env: 
-        PYTHON_VERSION: ${{ PYTHON_VERSION }}
-        
 
     - name: Load cached venv
       id: cached-poetry-dependencies
       uses: actions/cache@v4
       with:
-        path: ~/.venv-${{ RUNNER_OS }}-${{ PYTHON_VERSION }}
-        key: venv-${{ RUNNER_OS }}-${{ PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+        path: ~/.venv
+        key: venv-${{ steps.globals.outputs.RUNNER_OS }}-${{ steps.globals.outputs.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
       shell: bash

@@ -177,6 +177,12 @@ jobs:
         with:
             submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
+      - name: Set globals
+        id: globals
+        shell: bash
+        run: |
+          echo "PYTHON_VERSION=${{ matrix.python-version }}" >> "${GITHUB_OUTPUT}"
+          echo "RUNNER_OS=${{ matrix.runner.os}}" >> "${GITHUB_OUTPUT}"
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
         env:
