@@ -5,9 +5,11 @@ inputs:
   python-version: 
     required: true
     description: "Python version to use"
+    default: "3.12"
   runner-os:
     required: true
     description: "OS used by the runner"
+    default: "ubuntu-22.04"
 
 runs:
   using: composite
