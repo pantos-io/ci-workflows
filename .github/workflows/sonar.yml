@@ -10,28 +10,27 @@ on:
     workflows: [CI shared workflow]
     types: [completed]
 permissions:
-  actions: read
-  checks: read
-  pull-requests: read
-  repository-projects: read
-  statuses: read
+  contents: read
 
 jobs:
   Sonar:
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     python-version: ["3.10", "3.11", "3.12"]
-    #     os: [ubuntu-22.04]
-    # name: Sonar ${{ matrix.python-version}}
     timeout-minutes: 30
-    # runs-on: ${{ matrix.os }}
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
     steps:
-      - uses: step-security/harden-runner@v2
+      - name: Harden Runner
+        uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
-          egress-policy: audit
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            *.execute-api.eu-central-1.amazonaws.com:443
+            github.com:443
+            sc-cleancode-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
+            scanner.sonarcloud.io:443
+            sonarcloud.io:443  
+      
       - uses: actions/checkout@v4
         with:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
