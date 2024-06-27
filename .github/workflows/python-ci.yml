@@ -64,7 +64,6 @@ jobs:
       
       - uses: actions/checkout@v4
         with:
-            submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
@@ -76,7 +75,8 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@v2
+      
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -88,7 +88,6 @@ jobs:
       
       - uses: actions/checkout@v4
         with:
-            submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
@@ -99,7 +98,7 @@ jobs:
   Sort:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@v2
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -111,7 +110,6 @@ jobs:
       
       - uses: actions/checkout@v4
         with:
-            submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
@@ -123,7 +121,7 @@ jobs:
     name: Bandit
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@v2
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -135,7 +133,6 @@ jobs:
       
       - uses: actions/checkout@v4
         with:
-            submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
 
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
@@ -163,7 +160,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: step-security/harden-runner@v2
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           disable-sudo: true
           egress-policy: block
@@ -175,7 +172,6 @@ jobs:
    
       - uses: actions/checkout@v4
         with:
-            submodules: recursive
             token: ${{ secrets.GH_TOKEN || github.token }}
       
       - uses: pantos-io/ci-workflows/.github/actions/install-python-deps@v1
