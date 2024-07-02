@@ -10,7 +10,7 @@ on:
     workflows: [CI shared workflow]
     types: [completed]
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   Sonar:
