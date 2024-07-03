@@ -10,6 +10,9 @@ on:
     workflows: [CI shared workflow]
     types: [completed]
 permissions:
+  # SonarCloud needs write permissions to write the analysis results
+  # to the comment of the PR. Hardener might complain that this should
+  # be read
   contents: write
 
 jobs:
