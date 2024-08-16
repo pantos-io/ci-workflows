@@ -10,6 +10,10 @@ inputs:
     required: true
     description: "OS used by the runner"
     default: "ubuntu-22.04"
+  working-directory:
+    required: false
+    description: "Working directory"
+    default: "."
 
 runs:
   using: composite
@@ -30,3 +34,4 @@ runs:
       shell: bash
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       run: poetry install --without dev --no-interaction --no-root
+      working-directory: ${{ inputs.working-directory }}

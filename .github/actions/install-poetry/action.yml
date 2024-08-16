@@ -11,7 +11,6 @@ inputs:
     description: "OS used by the runner"
     default: "ubuntu-22.04"
 
-
 runs:
   using: composite
   steps:
