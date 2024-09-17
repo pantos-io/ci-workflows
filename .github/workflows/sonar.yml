@@ -32,7 +32,7 @@ jobs:
             github.com:443
             sc-cleancode-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
             scanner.sonarcloud.io:443
-            sonarcloud.io:443  
+            *.sonarcloud.io:443  
       
       - uses: actions/checkout@v4
         with:
