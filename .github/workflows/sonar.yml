@@ -2,6 +2,10 @@ name: Sonar
 on:
   workflow_call:
     inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.12"
       test-database:
         required: false
         type: boolean
@@ -22,19 +26,20 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+        uses: step-security/harden-runner@446798f8213ac2e75931c1b0769676d927801858 # v2.10.0
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: >
+            analysis-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
             api.github.com:443
+            api.sonarcloud.io:443
             *.execute-api.eu-central-1.amazonaws.com:443
             github.com:443
             sc-cleancode-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
             scanner.sonarcloud.io:443
-            api.sonarcloud.io:443
             sonarcloud.io:443
-      
+          
       - uses: actions/checkout@v4
         with:
           repository: ${{ github.event.workflow_run.head_repository.full_name }}
@@ -53,16 +58,14 @@ jobs:
       - name: Download artifact from CI workflow
         uses: actions/download-artifact@v4
         with:
-          # name: code-coverage-report-${{ matrix.python-version }}
-          name: code-coverage-report-3.12
+          name: code-coverage-report-${{ inputs.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
       - uses: actions/download-artifact@v4
         if: ${{ inputs.test-database }}
         with:
-          #name: code-coverage-postgres-report-${{ matrix.python-version }}
-          name: code-coverage-postgres-report-3.12
+          name: code-coverage-postgres-report-${{ inputs.python-version }}
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.get-run-id.outputs.run-id }}
