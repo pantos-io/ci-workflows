@@ -35,4 +35,4 @@ runs:
         virtualenvs-create: true
         virtualenvs-in-project: true
         installer-parallel: true
-
+        version: <2.0.0
