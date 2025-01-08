@@ -35,4 +35,6 @@ runs:
         virtualenvs-create: true
         virtualenvs-in-project: true
         installer-parallel: true
-        version: <2.0.0
+        # fixed version of poetry to avoid conflicts with the
+        # lack of freeze-dependencies for poetry 2.0.0
+        version: 1.8.5
