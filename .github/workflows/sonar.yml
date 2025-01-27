@@ -29,7 +29,7 @@ jobs:
       - name: Harden Runner
         uses: step-security/harden-runner@446798f8213ac2e75931c1b0769676d927801858 # v2.10.0
         # ony on public repos
-        if: !github.event.repository.private
+        if: ${{ !github.event.repository.private }}
         with:
           disable-sudo: true
           egress-policy: block
