@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        # only on publi repos
+        if: !github.event.repository.private
         with:
           disable-sudo: true
           egress-policy: block
